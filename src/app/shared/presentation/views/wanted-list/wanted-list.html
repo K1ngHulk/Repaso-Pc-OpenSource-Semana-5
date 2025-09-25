@@ -1,0 +1,105 @@
+<div class="wanted-list-container">
+  <h1 class="page-title">All Wanted Persons Information</h1>
+  
+  <!-- Loading spinner -->
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner></mat-spinner>
+    <p>Cargando información de personas buscadas...</p>
+  </div>
+  
+  <!-- Error message -->
+  <div *ngIf="error" class="error-container">
+    <p class="error-message">{{ error }}</p>
+  </div>
+  
+  <!-- Cards grid -->
+  <div *ngIf="!loading && !error" class="cards-grid">
+    <mat-card *ngFor="let person of wantedPersons; trackBy: trackByUid" class="wanted-person-card">
+      
+      <!-- Card image -->
+      <div class="card-image-container">
+        <img 
+          *ngIf="getImageUrl(person); else noImage" 
+          [src]="getImageUrl(person)" 
+          [alt]="person.title"
+          class="card-image"
+          (error)="$event.target.style.display='none'"
+        />
+        <ng-template #noImage>
+          <div class="no-image-placeholder">
+            <span>Sin imagen disponible</span>
+          </div>
+        </ng-template>
+      </div>
+      
+      <!-- Card header -->
+      <mat-card-header class="card-header">
+        <mat-card-title class="card-title">{{ person.title }}</mat-card-title>
+        <mat-card-subtitle class="card-subtitle">
+          {{ formatDate(person.publication) }}
+        </mat-card-subtitle>
+      </mat-card-header>
+      
+      <!-- Card content -->
+      <mat-card-content class="card-content">
+        
+        <!-- Description -->
+        <div *ngIf="person.description" class="info-section">
+          <h4 class="info-label">Descripción:</h4>
+          <p class="info-text">{{ person.description }}</p>
+        </div>
+        
+        <!-- Status -->
+        <div *ngIf="person.status" class="info-section">
+          <h4 class="info-label">Estado:</h4>
+          <mat-chip class="status-chip">{{ person.status }}</mat-chip>
+        </div>
+        
+        <!-- Sex -->
+        <div *ngIf="person.sex" class="info-section">
+          <h4 class="info-label">Sexo:</h4>
+          <span class="info-text">{{ person.sex }}</span>
+        </div>
+        
+        <!-- Warning message -->
+        <div *ngIf="person.warning_message" class="info-section warning-section">
+          <h4 class="info-label warning-label">⚠️ Advertencia:</h4>
+          <p class="warning-text">{{ person.warning_message }}</p>
+        </div>
+        
+        <!-- Details -->
+        <div *ngIf="person.details" class="info-section">
+          <h4 class="info-label">Detalles:</h4>
+          <p class="info-text details-text">{{ person.details }}</p>
+        </div>
+        
+      </mat-card-content>
+      
+      <!-- Card footer -->
+      <mat-card-actions class="card-footer">
+        <div class="footer-left">
+          <button 
+            mat-raised-button 
+            color="primary" 
+            (click)="openDetails(person.url)"
+            [disabled]="!person.url"
+          >
+            View Details
+          </button>
+        </div>
+        <div class="footer-right">
+          <span *ngIf="person.poster_classification" class="classification-text">
+            {{ person.poster_classification }}
+          </span>
+        </div>
+      </mat-card-actions>
+      
+    </mat-card>
+  </div>
+  
+  <!-- Empty state -->
+  <div *ngIf="!loading && !error && wantedPersons.length === 0" class="empty-state">
+    <p>No se encontraron personas buscadas.</p>
+  </div>
+  
+</div>

@@ -1,0 +1,39 @@
+.footer-content {
+  background-color: black;
+  color: white;
+  text-align: center;
+  padding: 20px 16px;
+  margin-top: auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.footer-content p {
+  margin: 8px 0;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.footer-content p:first-child {
+  font-weight: 500;
+}
+
+.footer-content p:last-child {
+  font-size: 0.75rem;
+  opacity: 0.8;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .footer-content {
+    padding: 16px 12px;
+  }
+  
+  .footer-content p {
+    font-size: 0.8rem;
+  }
+  
+  .footer-content p:last-child {
+    font-size: 0.7rem;
+  }
+}
